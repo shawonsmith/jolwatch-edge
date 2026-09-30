@@ -13,9 +13,11 @@
 
 ![JolWatch Edge Banner](assets/jolwatch-banner-1920x600.png)
 
-## 🌐 Live Interactive Demo
+## 🌐 Live Interactive Demo & Academic Paper
 
-🚀 **Experience the Live Application:** [https://shawonsmith.github.io/jolwatch-edge/](https://shawonsmith.github.io/jolwatch-edge/)  
+🚀 **Interactive Web Dashboard:** [https://shawonsmith.github.io/jolwatch-edge/](https://shawonsmith.github.io/jolwatch-edge/)  
+📄 **Academic Research Paper (Printable / PDF):** [https://shawonsmith.github.io/jolwatch-edge/paper/](https://shawonsmith.github.io/jolwatch-edge/paper/)  
+📜 **Research Manuscript (Source):** [https://github.com/shawonsmith/jolwatch-edge/blob/v1.0.0/paper/paper.md](https://github.com/shawonsmith/jolwatch-edge/blob/v1.0.0/paper/paper.md)  
 *(Runs 100% client-side in your browser. No server, database, or continuous internet connection required.)*
 
 ---
