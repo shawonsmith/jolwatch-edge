@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JolWatch Edge — Academic Research Paper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #073b4c;
+      --accent: #0bb89f;
+      --text: #1a202c;
+      --muted: #4a5568;
+      --border: #e2e8f0;
+      --bg: #f7fafc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
+    .paper-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 60px 80px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .print-bar {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.95rem;
+      line-height: 1.3;
+      color: var(--primary);
+      text-align: center;
+      margin: 0 0 20px;
+    }
+    .author-block {
+      text-align: center;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid var(--border);
+    }
+    .author-name {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+    .author-affil {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+    .author-contact {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: 'Fira Code', monospace;
+      margin-top: 4px;
+    }
+    .abstract-box {
+      background: #f8fafc;
+      border-left: 3px solid var(--accent);
+      padding: 18px 24px;
+      margin-bottom: 35px;
+      font-size: 0.92rem;
+    }
+    .abstract-title {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.8rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.25rem;
+      color: var(--primary);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      margin-top: 35px;
+      margin-bottom: 14px;
+    }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 22px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 0.96rem;
+      text-align: justify;
+      margin-bottom: 16px;
+    }
+    .equation-card {
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #2b4c56;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 0.88rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th {
+      background: #edf2f7;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .caption {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: -12px;
+      margin-bottom: 20px;
+    }
+    ul, ol {
+      font-size: 0.95rem;
+      padding-left: 22px;
+      margin-bottom: 18px;
+    }
+    li { margin-bottom: 6px; }
+    .references {
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      margin-top: 40px;
+    }
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .print-bar { display: none; }
+      .paper-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      h2 { page-break-after: avoid; }
+      table, .equation-card { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar">
+    <a href="../index.html" style="color:var(--primary);text-decoration:none;font-weight:600;">← Back to JolWatch Dashboard</a>
+    <button class="btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+
+  <article class="paper-container">
+    <h1>JolWatch Edge: An Explainable Offline-First Water Intelligence and Deterministic Leak Detection System for Low-Connectivity Facilities</h1>
+
+    <div class="author-block">
+      <div class="author-name">Shawon Khan</div>
+      <div class="author-affil">Independent Developer & Engineering Researcher</div>
+      <div class="author-affil">Dhaka, Bangladesh</div>
+      <div class="author-contact">GitHub: @shawonsmith · Email: smithitcompany@gmail.com</div>
+    </div>
+
+    <div class="abstract-box">
+      <div class="abstract-title">Abstract</div>
+      <p style="margin:0;">
+        Undetected distribution leaks and overhead reservoir overflows in community facilities across low-connectivity regions lead to acute resource wastage and substantial financial liabilities. Conventional IoT water management architectures impose heavy prerequisites on continuous cloud connectivity, commercial cellular bandwidth, and centralized telemetry—dependencies that frequently fail in off-grid environments. This paper presents <strong>JolWatch Edge</strong>, an open-source, deterministic water intelligence prototype designed for fully decentralized edge execution. By computing discrete flow balances between a primary inlet meter and monitored downstream sub-zones, the system applies transparent mathematical rules to identify normal flow, structural pipe leaks, tank overflows, and sensor calibration discrepancies without cloud connectivity. Furthermore, an Essential Reserve Clock projects usable endurance hours during municipal outages while enforcing a protected buffer. Synthetic benchmarks across boundary conditions validate the system's deterministic decision boundaries with a 28-test automated verification suite, establishing an extensible foundation for subsequent physical sensor test-rig validation.
+      </p>
+    </div>
+
+    <h2>1. Introduction & Problem Statement</h2>
+    <p>
+      Water distribution systems in schools, primary healthcare clinics, and community facilities in developing economies frequently operate under intermittent municipal supply or decentralized tube-well pumping. Facilities store water in overhead reservoirs to buffer against supply disruptions. However, piping infrastructure in these settings suffers from high rates of hidden leakage behind walls and underground, as well as mechanical float-valve failures that cause undetected overflows.
+    </p>
+    <p>
+      Traditional monitoring relies on delayed utility billing, leaving leaks undetected for weeks. Modern commercial IoT monitoring solutions, while technologically advanced, are engineered for high-bandwidth cloud backends with recurring SaaS subscription fees. In resource-constrained facilities throughout the Global South, where internet outages are common, cloud-dependent alert pipelines fail to provide timely intervention.
+    </p>
+
+    <h2>2. Mathematical Formulation</h2>
+    <h3>2.1 Flow-Balance & Loss Rate Derivation</h3>
+    <p>
+      Consider a facility plumbing network with an instantaneous volumetric inflow \(Q_{in}(t)\) (L/min) and \(k\) monitored downstream sub-zones \(Q_{z,i}(t)\) (e.g., washrooms, kitchens, outdoor grounds, drinking points). The recorded aggregate demand \(Q_{zones}(t)\) is:
+    </p>
+    <div class="equation-card">
+      Q_zones(t) = ∑ Q_{z,i}(t)  [for i = 1 to k]<br>
+      EstimatedLoss(t) = max(0, Q_in(t) - Q_zones(t))<br>
+      LossRate(t) = (EstimatedLoss(t) / Q_in(t)) × 100  [if Q_in(t) > 0]
+    </div>
+
+    <h3>2.2 Decision Classification Rules</h3>
+    <p>
+      To maintain operational transparency, JolWatch Edge avoids opaque machine learning models in favor of five deterministic, explainable rules:
+    </p>
+    <ul>
+      <li><strong>Sensor Mismatch:</strong> If \((Q_{zones} - Q_{in}) > 2.0\text{ L/min}\), reject alert and flag sensor drift or meter misalignment.</li>
+      <li><strong>Possible Tank Overflow:</strong> If \(\text{TankLevel} \ge 95\%\), \(Q_{in} > 10\text{ L/min}\), and \(\text{LossRate} > 25\%\), trigger overflow alert to inspect shutoff valves.</li>
+      <li><strong>Possible Hidden Leak:</strong> If \(\text{LossRate} > 15\%\) and persists for \(\text{Duration} \ge 15\text{ minutes}\), trigger hidden leak alert.</li>
+      <li><strong>Monitor Warning:</strong> If \(\text{LossRate} > 8\%\), flag elevated imbalance requiring operator observation.</li>
+      <li><strong>Normal:</strong> Unexplained flow remains below operational action thresholds.</li>
+    </ul>
+
+    <h3>2.3 Essential Reserve Clock Projection</h3>
+    <p>
+      Given reservoir capacity \(C\) (L), level \(H(t)\) (%), and protected reserve fraction \(\beta\) (\(0.20\) for schools, \(0.30\) for clinics):
+    </p>
+    <div class="equation-card">
+      V_usable(t) = max(0, C × (H(t)/100) - C × β)<br>
+      T_reserve(t) = V_usable(t) / (Demand_hourly + 60 × EstimatedLoss(t))
+    </div>
+
+    <h2>3. System Architecture & Edge Feasibility</h2>
+    <p>
+      The architecture is designed for deployment on low-cost ESP32-class microcontrollers interfacing with hall-effect pulse flow sensors (YF-S201) and waterproof ultrasonic depth sensors (JSN-SR04T). The computation engine is fully self-contained in <code>js/engine.js</code>, requiring zero external runtime dependencies. Local persistence utilizes client-side storage with an exportable JSON schema, ensuring zero telemetry leakage.
+    </p>
+
+    <h2>4. Validation & Deterministic Benchmarking</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Case</th>
+          <th>Scenario</th>
+          <th>Inlet</th>
+          <th>Zones</th>
+          <th>Loss Rate</th>
+          <th>Duration</th>
+          <th>Decision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>TC-01</td>
+          <td>Normal Usage</td>
+          <td>32.0 L/min</td>
+          <td>30.5 L/min</td>
+          <td>4.7%</td>
+          <td>20 min</td>
+          <td><strong>Normal</strong></td>
+        </tr>
+        <tr>
+          <td>TC-02</td>
+          <td>Hidden Leak</td>
+          <td>44.0 L/min</td>
+          <td>30.0 L/min</td>
+          <td>31.8%</td>
+          <td>35 min</td>
+          <td><strong>Possible hidden leak</strong></td>
+        </tr>
+        <tr>
+          <td>TC-03</td>
+          <td>Tank Overflow</td>
+          <td>52.0 L/min</td>
+          <td>20.0 L/min</td>
+          <td>61.5%</td>
+          <td>20 min</td>
+          <td><strong>Possible tank overflow</strong></td>
+        </tr>
+        <tr>
+          <td>TC-04</td>
+          <td>Sensor Mismatch</td>
+          <td>25.0 L/min</td>
+          <td>34.0 L/min</td>
+          <td>0.0%</td>
+          <td>10 min</td>
+          <td><strong>Sensor mismatch</strong></td>
+        </tr>
+        <tr>
+          <td>TC-05</td>
+          <td>Elevated Short Gap</td>
+          <td>40.0 L/min</td>
+          <td>34.0 L/min</td>
+          <td>15.0%</td>
+          <td>5 min</td>
+          <td><strong>Monitor</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="caption">Table 1: Canonical deterministic evaluation dataset validated by automated test suite (28/28 tests passing).</div>
+
+    <h2>5. Honest Disclosures & Research Roadmap</h2>
+    <p>
+      <strong>Current Prototype Status:</strong> This work represents a validated software implementation using synthetic benchmarks. Physical sensor rig deployment, empirical calibration of thresholds against physical pipeline friction, and long-term field validation remain subsequent milestones.
+    </p>
+    <p>
+      <strong>Water Potability Disclaimer:</strong> The tank maintenance attention indicator evaluates physical observational proxies (turbidity, TDS shift, temperature, inspection intervals). It cannot detect microbiological pathogens, viruses, or dissolved arsenic, and does not certify drinking water safety.
+    </p>
+
+    <h2>6. Conclusion</h2>
+    <p>
+      JolWatch Edge demonstrates that practical water conservation and leak mitigation in developing facilities do not require continuous cloud access or expensive proprietary hardware. By running transparent flow-balance heuristics on edge runtimes, facilities can safeguard essential water reserves, detect infrastructure failures early, and verify maintenance outcomes locally.
+    </p>
+
+    <div class="references">
+      <h3>References</h3>
+      <ol>
+        <li>World Health Organization (WHO), "Water, Sanitation, and Hygiene in Health Care Facilities: Practical Steps to Achieve Universal Access," 2019.</li>
+        <li>Hutton, G., & Varughese, M., "The Costs of Meeting the 2030 Sustainable Development Goal Targets on Drinking Water, Sanitation, and Hygiene," World Bank, 2016.</li>
+        <li>Mayer, P. W., et al., "Residential End Uses of Water, Version 2," Water Research Foundation, 2016.</li>
+        <li>Khan, S., "JolWatch Edge: Offline-First Water Intelligence Prototype," GitHub Repository, 2026. Available: https://github.com/shawonsmith/jolwatch-edge</li>
+      </ol>
+    </div>
+  </article>
+
+</body>
+</html>

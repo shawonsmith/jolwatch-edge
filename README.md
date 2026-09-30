@@ -174,7 +174,7 @@ If you reference or build upon this work in your research or project, please cit
   title = {JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype},
   year = {2026},
   url = {https://github.com/shawonsmith/jolwatch-edge},
-  version = {2.0.0}
+  version = {1.0.0}
 }
 ```
 *(Also available in machine-readable CFF format: [`CITATION.cff`](CITATION.cff).)*
