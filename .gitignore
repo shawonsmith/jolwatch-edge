@@ -7,3 +7,4 @@ Thumbs.db
 .openai/
 deploy-v2.tar.gz
 *.tar.gz
+_submission_notes/
