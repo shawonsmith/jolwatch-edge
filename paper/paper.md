@@ -103,3 +103,11 @@ The project is structured with strict separation of concerns:
 - **Repository:** [https://github.com/shawonsmith/jolwatch-edge](https://github.com/shawonsmith/jolwatch-edge)
 - **Live Prototype:** [https://shawonsmith.github.io/jolwatch-edge/](https://shawonsmith.github.io/jolwatch-edge/)
 - **License:** MIT License
+
+# References
+
+- Hutton, G., & Varughese, M. (2016). *The Costs of Meeting the 2030 Sustainable Development Goal Targets on Drinking Water, Sanitation, and Hygiene*. World Bank, Washington, DC. https://doi.org/10.1596/K8543
+- Khan, S. (2026). *JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype* (v1.0.1). Zenodo. https://doi.org/10.5281/zenodo.23071386
+- Mayer, P. W., DeOreo, W. B., Chesnutt, T. W., & Pekelney, D. M. (2016). *Residential End Uses of Water, Version 2*. Water Research Foundation, Denver, CO.
+- World Health Organization. (2019). *Water, Sanitation, and Hygiene in Health Care Facilities: Practical Steps to Achieve Universal Access*. World Health Organization, Geneva, Switzerland. https://www.who.int/publications/i/item/9789241515511
+

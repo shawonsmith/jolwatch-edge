@@ -17,7 +17,7 @@
 
 🚀 **Interactive Web Dashboard:** [https://shawonsmith.github.io/jolwatch-edge/](https://shawonsmith.github.io/jolwatch-edge/)  
 📄 **Academic Research Paper (Printable / PDF):** [https://shawonsmith.github.io/jolwatch-edge/paper/](https://shawonsmith.github.io/jolwatch-edge/paper/)  
-📜 **Research Manuscript (Source):** [https://github.com/shawonsmith/jolwatch-edge/blob/v1.0.0/paper/paper.md](https://github.com/shawonsmith/jolwatch-edge/blob/v1.0.0/paper/paper.md)  
+📜 **Research Manuscript (Source):** [https://github.com/shawonsmith/jolwatch-edge/blob/main/paper/paper.md](https://github.com/shawonsmith/jolwatch-edge/blob/main/paper/paper.md)  
 *(Runs 100% client-side in your browser. No server, database, or continuous internet connection required.)*
 
 ---
@@ -178,7 +178,7 @@ If you reference or build upon this work in your research or project, please cit
   year = {2026},
   doi = {10.5281/zenodo.23071386},
   url = {https://doi.org/10.5281/zenodo.23071386},
-  version = {1.0.0}
+  version = {1.0.1}
 }
 ```
 *(Also available in machine-readable CFF format: [`CITATION.cff`](CITATION.cff).)*
