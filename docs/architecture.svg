@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061f2f"/><stop offset="1" stop-color="#0b4760"/></linearGradient>
+    <linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#17c3b2"/><stop offset="1" stop-color="#168aad"/></linearGradient>
+    <filter id="s"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-opacity=".22"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#63d8ce"/></marker>
+    <style>.h{font:700 54px Inter,Arial;fill:#fff}.sub{font:24px Inter,Arial;fill:#afd0dc}.t{font:700 26px Inter,Arial;fill:#092435}.p{font:18px Inter,Arial;fill:#5f7380}.label{font:700 16px Inter,Arial;fill:#63d8ce;letter-spacing:1px}.line{stroke:#63d8ce;stroke-width:5;fill:none;marker-end:url(#arrow)}.dash{stroke-dasharray:12 12}</style>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <text x="100" y="105" class="h">JolWatch Edge</text><text x="100" y="148" class="sub">Offline-first technical architecture · proposed physical implementation</text>
+  <g filter="url(#s)">
+    <rect x="90" y="270" width="280" height="250" rx="28" fill="#fff"/><circle cx="230" cy="335" r="38" fill="url(#a)"/><path d="M230 306c-18 25-27 37-27 52a27 27 0 0054 0c0-15-9-27-27-52z" fill="#fff"/><text x="125" y="420" class="t">Flow sensing</text><text x="125" y="457" class="p">Main inlet + zone meters</text><text x="125" y="487" class="p">Tank-level input (future)</text>
+    <rect x="485" y="235" width="300" height="320" rx="28" fill="#fff"/><rect x="590" y="285" width="90" height="74" rx="14" fill="url(#a)"/><circle cx="614" cy="322" r="8" fill="#fff"/><circle cx="656" cy="322" r="8" fill="#fff"/><text x="535" y="420" class="t">Edge intelligence</text><text x="535" y="457" class="p">ESP32-class controller</text><text x="535" y="487" class="p">Local queue and processing</text><text x="535" y="517" class="p">Works without the internet</text>
+    <rect x="900" y="235" width="300" height="320" rx="28" fill="#fff"/><path d="M955 310h190M955 350h150M955 390h115" stroke="url(#a)" stroke-width="18" stroke-linecap="round"/><text x="950" y="455" class="t">Decision engine</text><text x="950" y="492" class="p">Flow-balance analysis</text><text x="950" y="522" class="p">Leak + overflow rules</text>
+    <rect x="1315" y="270" width="220" height="250" rx="28" fill="#fff"/><rect x="1372" y="306" width="106" height="72" rx="10" fill="#dff7f4" stroke="#17c3b2" stroke-width="5"/><path d="M1392 356l20-18 18 10 28-25" fill="none" stroke="#168aad" stroke-width="6"/><text x="1355" y="430" class="t">Action</text><text x="1355" y="467" class="p">Dashboard</text><text x="1355" y="497" class="p">Local + remote alert</text>
+  </g>
+  <path d="M370 395H480" class="line"/><path d="M785 395H895" class="line"/><path d="M1200 395H1310" class="line"/>
+  <text x="104" y="615" class="label">OFFLINE CORE</text><path d="M90 635H1210" stroke="#63d8ce" stroke-width="2" opacity=".4"/>
+  <g filter="url(#s)"><rect x="900" y="665" width="300" height="120" rx="24" fill="#e9f6fa"/><text x="950" y="720" class="t">Connectivity returns</text><text x="950" y="752" class="p">Synchronise queued records</text><rect x="1315" y="665" width="220" height="120" rx="24" fill="#e9f6fa"/><text x="1363" y="720" class="t">Cloud</text><text x="1355" y="752" class="p">Optional history / SMS</text></g>
+  <path d="M1050 560v100" class="line dash"/><path d="M1200 725h110" class="line dash"/><text x="100" y="840" class="sub">Current software prototype uses simulated readings. Physical sensor validation is the next development stage.</text>
+</svg>
