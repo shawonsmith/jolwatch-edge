@@ -8,10 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.1] - 2026-10-01
 
 ### Fixed
-- Version alignment across `package.json`, `SECURITY.md`, and `CITATION.cff`.
-- Added missing `paper/paper.bib` containing BibTeX citations for formal academic review.
+- Synchronized version alignment across `package.json`, `SECURITY.md`, and `CITATION.cff`.
+- Integrated Concept DOI `10.5281/zenodo.23071385` (project-wide badge) and release DOI `10.5281/zenodo.23071819` (v1.0.1 citation).
+- Added in-text citations (WHO, World Bank, WRF, Khan) into manuscript text.
+- Added `paper/paper.bib` containing BibTeX citations for formal review.
 - Updated manuscript link in `README.md` to point to `main` branch to prevent stale tag caching.
 - Confirmed verified author ORCID `0009-0006-5669-3792` across all documentation.
+- Honest reframing as an open Technical Paper / Software Manuscript prior to journal peer review.
 
 ## [1.0.0] - 2026-10-01
 
@@ -25,4 +28,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Formalized mathematical specifications in `docs/TESTING.md`.
 - Essential Reserve Clock and alert-to-repair simulation.
 - English and Bangla bilingual user interface.
-- Official Zenodo DOI archiving (`10.5281/zenodo.23071386`).
+- Initial Zenodo repository archiving.

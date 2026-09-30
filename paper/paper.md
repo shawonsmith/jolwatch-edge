@@ -15,19 +15,19 @@ affiliations:
   - name: Independent Developer & Researcher, Dhaka, Bangladesh
     index: 1
 date: 1 October 2026
-doi: 10.5281/zenodo.23071386
+doi: 10.5281/zenodo.23071819
 bibliography: paper.bib
 ---
 
 # Summary
 
-Water scarcity and unmonitored distribution losses present severe operational challenges to community infrastructure across developing nations. In facilities such as rural primary schools, health clinics, and multi-tenant residential complexes, undetected pipe bursts, faulty cisterns, and storage tank overflows often persist for days before detection. While commercial Internet of Things (IoT) solutions exist, they predominantly rely on continuous cloud connectivity, proprietary hardware, and centralized telemetry—prerequisites that are frequently absent in resource-constrained environments.
+Water scarcity and unmonitored distribution losses present severe operational challenges to community infrastructure across developing nations. Community facilities frequently experience critical water, sanitation, and hygiene (WASH) infrastructure limitations (World Health Organization, 2019) [@who2019wash]. In facilities such as rural primary schools, health clinics, and multi-tenant residential complexes, undetected pipe bursts, faulty cisterns, and storage tank overflows often persist for days before detection. While commercial Internet of Things (IoT) solutions exist, they predominantly rely on continuous cloud connectivity, proprietary hardware, and centralized telemetry—prerequisites that are frequently absent in resource-constrained environments.
 
 **JolWatch Edge** is an open-source, offline-first water intelligence prototype designed to operate reliably without continuous internet access. The system ingests flow rates from a facility's main inlet and monitored branch zones, applying deterministic flow-balance equations to classify usage states into *Normal*, *Possible Hidden Leak*, *Possible Tank Overflow*, *Sensor Mismatch*, or *Monitor*. Additionally, it provides an *Essential Reserve Clock* for capacity planning during supply outages and an observational *Maintenance Attention Indicator* to guide water tank cleaning.
 
 # Statement of Need
 
-In many parts of the Global South, including Bangladesh, institutions depend on intermittent municipal supply or decentralized groundwater extraction pumped into overhead reservoirs. Water utility billing reflects aggregate volumetric consumption rather than temporal or spatial flow dynamics. Consequently, facilities encounter two distinct failure modes:
+In many parts of the Global South, including Bangladesh, institutions depend on intermittent municipal supply or decentralized groundwater extraction pumped into overhead reservoirs. Achieving universal water access under Sustainable Development Goal 6 requires substantial capital investment and proactive loss mitigation (Hutton and Varughese, 2016) [@hutton2016costs]. Water utility billing reflects aggregate volumetric consumption rather than temporal or spatial flow dynamics. Empirical plumbing end-use studies demonstrate that fixture leakage and unmonitored line failures represent significant fractions of aggregate municipal draw (Mayer et al., 2016) [@mayer2016residential]. Consequently, facilities encounter two distinct failure modes:
 
 1. **Undetected Distribution Leaks:** Subsurface line fractures or defective washroom fixtures generate persistent low-to-medium flow imbalances that escalate municipal bills and deplete local aquifers.
 2. **Overhead Reservoir Overflows:** Mechanical float-valve failures allow inlet pumping to continue past storage capacity, leading to structural water damage and acute resource wastage.
@@ -87,7 +87,7 @@ $$T_{reserve}(t) = \frac{V_{usable}(t)}{\max\left(1, D_{profile} + 60 \cdot \Del
 
 # Software Architecture & Verification
 
-The project is structured with strict separation of concerns:
+The JolWatch Edge reference software implementation (Khan, 2026) [@khan2026jolwatch] is structured with strict separation of concerns:
 - **`js/engine.js`:** Pure, dependency-free calculation engine supporting Universal Module Definition (UMD) for deployment in headless Node.js edge environments or client-side web browsers.
 - **`js/app.js`:** Interactive state controller managing localStorage persistence, safe DOM manipulation to prevent cross-site scripting (XSS), bilingual (English/Bengali) dictionary translation, and local JSON export.
 - **Automated Test Suite (`tests/`):** 28 deterministic unit tests executing under Node.js test runners and validated through continuous integration on GitHub Actions across Node.js 18.x, 20.x, and 22.x.
@@ -107,7 +107,7 @@ The project is structured with strict separation of concerns:
 # References
 
 - Hutton, G., & Varughese, M. (2016). *The Costs of Meeting the 2030 Sustainable Development Goal Targets on Drinking Water, Sanitation, and Hygiene*. World Bank, Washington, DC. https://doi.org/10.1596/K8543
-- Khan, S. (2026). *JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype* (v1.0.1). Zenodo. https://doi.org/10.5281/zenodo.23071386
+- Khan, S. (2026). *JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype* (v1.0.1). Zenodo. https://doi.org/10.5281/zenodo.23071819
 - Mayer, P. W., DeOreo, W. B., Chesnutt, T. W., & Pekelney, D. M. (2016). *Residential End Uses of Water, Version 2*. Water Research Foundation, Denver, CO.
 - World Health Organization. (2019). *Water, Sanitation, and Hygiene in Health Care Facilities: Practical Steps to Achieve Universal Access*. World Health Organization, Geneva, Switzerland. https://www.who.int/publications/i/item/9789241515511
 

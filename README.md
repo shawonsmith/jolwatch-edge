@@ -1,6 +1,6 @@
 # JolWatch Edge
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23071386.svg)](https://doi.org/10.5281/zenodo.23071386)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23071385.svg)](https://doi.org/10.5281/zenodo.23071385)
 [![CI Tests](https://github.com/shawonsmith/jolwatch-edge/actions/workflows/test.yml/badge.svg)](https://github.com/shawonsmith/jolwatch-edge/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/Tests-28%20Passing-brightgreen.svg)](tests/detection-engine.test.js)
@@ -13,12 +13,12 @@
 
 ![JolWatch Edge Banner](assets/jolwatch-banner-1920x600.png)
 
-## 🌐 Live Interactive Demo & Academic Paper
+## 🌐 Live Interactive Demo & Technical Paper
 
 🚀 **Interactive Web Dashboard:** [https://shawonsmith.github.io/jolwatch-edge/](https://shawonsmith.github.io/jolwatch-edge/)  
-📄 **Academic Research Paper (Printable / PDF):** [https://shawonsmith.github.io/jolwatch-edge/paper/](https://shawonsmith.github.io/jolwatch-edge/paper/)  
-📜 **Research Manuscript (Source):** [https://github.com/shawonsmith/jolwatch-edge/blob/main/paper/paper.md](https://github.com/shawonsmith/jolwatch-edge/blob/main/paper/paper.md)  
-*(Runs 100% client-side in your browser. No server, database, or continuous internet connection required.)*
+📄 **Technical Paper / Software Manuscript (Printable / HTML):** [https://shawonsmith.github.io/jolwatch-edge/paper/](https://shawonsmith.github.io/jolwatch-edge/paper/)  
+📜 **Technical Manuscript Source (Markdown):** [https://github.com/shawonsmith/jolwatch-edge/blob/main/paper/paper.md](https://github.com/shawonsmith/jolwatch-edge/blob/main/paper/paper.md)  
+*(Runs 100% client-side in your browser. This document is an open technical report / software manuscript archived on Zenodo, intended as a foundation prior to field peer review.)*
 
 ---
 
@@ -176,8 +176,8 @@ If you reference or build upon this work in your research or project, please cit
   author = {Khan, Shawon},
   title = {JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype},
   year = {2026},
-  doi = {10.5281/zenodo.23071386},
-  url = {https://doi.org/10.5281/zenodo.23071386},
+  doi = {10.5281/zenodo.23071819},
+  url = {https://doi.org/10.5281/zenodo.23071819},
   version = {1.0.1}
 }
 ```

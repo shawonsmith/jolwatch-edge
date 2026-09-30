@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JolWatch Edge — Academic Research Paper</title>
+  <title>JolWatch Edge — Technical Paper / Software Manuscript</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -200,7 +200,7 @@
       <div class="author-contact">GitHub: @shawonsmith · Email: smithitcompany@gmail.com</div>
       <div class="author-contact" style="margin-top:8px;">
         <a href="https://orcid.org/0009-0006-5669-3792" target="_blank" style="color:#a6ce39;font-weight:600;text-decoration:none;margin-right:15px;">ORCID: 0009-0006-5669-3792</a>
-        <a href="https://doi.org/10.5281/zenodo.23071386" target="_blank" style="color:var(--accent);font-weight:600;text-decoration:none;">DOI: 10.5281/zenodo.23071386</a>
+        <a href="https://doi.org/10.5281/zenodo.23071819" target="_blank" style="color:var(--accent);font-weight:600;text-decoration:none;">DOI: 10.5281/zenodo.23071819</a>
       </div>
     </div>
 
@@ -213,7 +213,7 @@
 
     <h2>1. Introduction & Problem Statement</h2>
     <p>
-      Water distribution systems in schools, primary healthcare clinics, and community facilities in developing economies frequently operate under intermittent municipal supply or decentralized tube-well pumping. Facilities store water in overhead reservoirs to buffer against supply disruptions. However, piping infrastructure in these settings suffers from high rates of hidden leakage behind walls and underground, as well as mechanical float-valve failures that cause undetected overflows.
+      Water distribution systems in schools, primary healthcare clinics, and community facilities in developing economies frequently operate under intermittent municipal supply or decentralized tube-well pumping. Community facilities frequently experience critical water, sanitation, and hygiene (WASH) infrastructure limitations (World Health Organization, 2019). Furthermore, achieving universal water access under Sustainable Development Goal 6 targets requires substantial capital investment and proactive loss mitigation (Hutton and Varughese, 2016). Facilities store water in overhead reservoirs to buffer against supply disruptions. However, piping infrastructure in these settings suffers from high rates of hidden leakage behind walls and underground, as well as mechanical float-valve failures that cause undetected overflows. Empirical plumbing end-use studies demonstrate that fixture leakage and unmonitored line failures represent significant fractions of aggregate municipal draw (Mayer et al., 2016).
     </p>
     <p>
       Traditional monitoring relies on delayed utility billing, leaving leaks undetected for weeks. Modern commercial IoT monitoring solutions, while technologically advanced, are engineered for high-bandwidth cloud backends with recurring SaaS subscription fees. In resource-constrained facilities throughout the Global South, where internet outages are common, cloud-dependent alert pipelines fail to provide timely intervention.
@@ -253,7 +253,7 @@
 
     <h2>3. System Architecture & Edge Feasibility</h2>
     <p>
-      The architecture is designed for deployment on low-cost ESP32-class microcontrollers interfacing with hall-effect pulse flow sensors (YF-S201) and waterproof ultrasonic depth sensors (JSN-SR04T). The computation engine is fully self-contained in <code>js/engine.js</code>, requiring zero external runtime dependencies. Local persistence utilizes client-side storage with an exportable JSON schema, ensuring zero telemetry leakage.
+      The reference software implementation for JolWatch Edge (Khan, 2026) is designed for deployment on low-cost ESP32-class microcontrollers interfacing with hall-effect pulse flow sensors (YF-S201) and waterproof ultrasonic depth sensors (JSN-SR04T). The computation engine is fully self-contained in <code>js/engine.js</code>, requiring zero external runtime dependencies. Local persistence utilizes client-side storage with an exportable JSON schema, ensuring zero telemetry leakage.
     </p>
 
     <h2>4. Validation & Deterministic Benchmarking</h2>
@@ -338,7 +338,7 @@
         <li>World Health Organization (WHO), "Water, Sanitation, and Hygiene in Health Care Facilities: Practical Steps to Achieve Universal Access," 2019.</li>
         <li>Hutton, G., & Varughese, M., "The Costs of Meeting the 2030 Sustainable Development Goal Targets on Drinking Water, Sanitation, and Hygiene," World Bank, 2016.</li>
         <li>Mayer, P. W., et al., "Residential End Uses of Water, Version 2," Water Research Foundation, 2016.</li>
-        <li>Khan, S., "JolWatch Edge: Offline-First Water Intelligence Prototype," GitHub Repository, 2026. Available: https://github.com/shawonsmith/jolwatch-edge</li>
+        <li>Khan, S., "JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype," Zenodo, 2026. DOI: <a href="https://doi.org/10.5281/zenodo.23071819" target="_blank" style="color:inherit;">10.5281/zenodo.23071819</a></li>
       </ol>
     </div>
   </article>
