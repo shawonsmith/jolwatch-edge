@@ -1,0 +1,19 @@
+{
+  "name": "jolwatch-edge",
+  "version": "2.0.0",
+  "description": "Offline-first water intelligence and leak detection prototype for schools, clinics, and community facilities.",
+  "main": "js/engine.js",
+  "scripts": {
+    "test": "node tests/detection-engine.test.js",
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "water-conservation",
+    "leak-detection",
+    "offline-first",
+    "edge-computing",
+    "iot-prototype"
+  ],
+  "author": "Shawon Khan",
+  "license": "MIT"
+}
