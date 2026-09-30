@@ -15,6 +15,7 @@ affiliations:
   - name: Independent Developer & Researcher, Dhaka, Bangladesh
     index: 1
 date: 1 October 2026
+doi: 10.5281/zenodo.23071386
 bibliography: paper.bib
 ---
 

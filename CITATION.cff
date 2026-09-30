@@ -6,6 +6,7 @@ authors:
     affiliation: "Independent Developer & Researcher, Bangladesh"
 title: "JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype"
 version: 1.0.0
+doi: 10.5281/zenodo.23071386
 date-released: 2026-10-01
 url: "https://github.com/shawonsmith/jolwatch-edge"
 repository-code: "https://github.com/shawonsmith/jolwatch-edge"
