@@ -9,7 +9,7 @@ tags:
   - IoT prototype
 authors:
   - name: Shawon Khan
-    orcid: 0009-0000-0000-0000
+    orcid: 0009-0006-5669-3792
     affiliation: 1
 affiliations:
   - name: Independent Developer & Researcher, Dhaka, Bangladesh

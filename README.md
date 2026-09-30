@@ -185,4 +185,5 @@ If you reference or build upon this work in your research or project, please cit
 
 **Author:** **Shawon Khan**  
 *Student & IT Developer, Bangladesh*  
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0006--5669--3792-green.svg)](https://orcid.org/0009-0006-5669-3792)  
 *GitHub:* [@shawonsmith](https://github.com/shawonsmith) · *Email:* [smithitcompany@gmail.com](mailto:smithitcompany@gmail.com)

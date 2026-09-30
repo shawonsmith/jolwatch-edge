@@ -4,6 +4,7 @@ authors:
   - family-names: Khan
     given-names: Shawon
     affiliation: "Independent Developer & Researcher, Bangladesh"
+    orcid: "https://orcid.org/0009-0006-5669-3792"
 title: "JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype"
 version: 1.0.0
 doi: 10.5281/zenodo.23071386
