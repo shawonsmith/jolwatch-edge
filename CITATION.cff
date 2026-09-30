@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use or reference this software, please cite it as below."
+authors:
+  - family-names: Khan
+    given-names: Shawon
+    affiliation: "Independent Developer & Researcher, Bangladesh"
+title: "JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype"
+version: 2.0.0
+date-released: 2026-10-01
+url: "https://github.com/shawonsmith/jolwatch-edge"
+repository-code: "https://github.com/shawonsmith/jolwatch-edge"
+keywords:
+  - "water conservation"
+  - "leak detection"
+  - "offline-first"
+  - "edge computing"
+  - "IoT prototype"
+  - "Bangladesh"
+license: MIT

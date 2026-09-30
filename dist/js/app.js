@@ -3,7 +3,7 @@
  * Author: Shawon Khan
  *
  * Handles DOM interaction, bilingual UI translation, offline storage,
- * guided demo transitions, and user events.
+ * safe incident rendering, simulated sync/export, and accessibility.
  */
 
 (function () {
@@ -21,20 +21,21 @@
   let currentLang = 'en';
   let demoStep = -1;
 
-  // Preset Test Scenarios: [inlet, level, z1, z2, z3, z4, duration]
+  // Canonical Preset Test Scenarios: [inlet, level, z1, z2, z3, z4, duration]
+  // Synchronized strictly with docs/TESTING.md
   const testPresets = {
-    normal: [32, 64, 10.5, 7, 8, 5, 20],
-    leak: [44, 62, 11, 6, 7, 5, 35],
-    overflow: [52, 98, 8, 5, 4, 3, 20],
-    mismatch: [25, 60, 12, 9, 8, 5, 10]
+    normal: [32.0, 64, 10.5, 7.0, 8.0, 5.0, 20],
+    leak: [44.0, 62, 11.0, 6.0, 7.0, 5.0, 35],
+    overflow: [52.0, 98, 8.0, 5.0, 4.0, 3.0, 20],
+    mismatch: [25.0, 60, 12.0, 9.0, 8.0, 5.0, 10]
   };
 
   // Guided demo steps
   const demoCases = [
-    ['normal', '1/4 · Normal flow', 'Expected result: flow balance remains within tolerance.'],
-    ['leak', '2/4 · Hidden leak', 'Expected result: persistent unexplained flow triggers a critical alert.'],
-    ['overflow', '3/4 · Tank overflow', 'Expected result: high tank level and flow gap trigger an overflow alert.'],
-    ['mismatch', '4/4 · Sensor mismatch', 'Expected result: inconsistent totals are flagged before maintenance action.']
+    ['normal', '1/4 · Normal flow', 'Expected result: flow balance remains within tolerance (<8%).'],
+    ['leak', '2/4 · Hidden leak', 'Expected result: persistent unexplained flow (>15% for ≥15 min) triggers a critical alert.'],
+    ['overflow', '3/4 · Tank overflow', 'Expected result: high tank level (≥95%) and flow gap trigger an overflow alert.'],
+    ['mismatch', '4/4 · Sensor mismatch', 'Expected result: inconsistent totals (zones > inlet) are flagged before action.']
   ];
 
   // Internationalization Dictionary (English & Bangla)
@@ -42,12 +43,13 @@
     en: {
       tagline: 'Water decisions, even offline',
       title: 'Facility Water Intelligence',
-      subtitle: 'Explainable local rules for schools, clinics and community buildings.',
+      subtitle: 'Explainable edge rules for schools, clinics and community buildings.',
       prototype: 'Interactive software prototype · simulated readings',
-      sync: 'Sync queue',
+      sync: 'Simulate Sync / Export',
+      syncTooltip: 'In this prototype, data remains strictly device-local. No external server API is contacted.',
       operations: 'Operations',
-      tankHealth: 'Tank Health',
-      incidents: 'Incidents',
+      tankHealth: 'Maintenance Advisor',
+      incidents: 'Incident Log',
       readings: '1. Enter current readings',
       testCases: 'Test cases:',
       analyze: 'Analyze readings',
@@ -56,32 +58,35 @@
       estimated: 'scenario estimate',
       reserveClock: 'Essential Reserve Clock',
       remaining: 'estimated remaining',
-      reserveNote: 'Prioritises minimum essential demand; it is a planning estimate, not a guarantee.',
+      reserveNote: 'Prioritises minimum essential demand; planning estimate based on facility baseline.',
       repair: 'Alert → Repair → Verify',
-      repairHint: 'Analyze an abnormal case, record the baseline, then enter after-repair readings to verify improvement.',
+      repairHint: 'Analyze an abnormal case, record baseline, then enter after-repair readings to verify improvement.',
       capture: 'Capture alert baseline',
       simulateRepair: 'Simulate repair',
       verify: 'Verify & save incident',
       tankInputs: 'Tank condition observations',
-      assess: 'Assess tank signals',
-      advisor: 'Cleaning & inspection advisor',
-      safety: 'Safety limit: this prototype cannot detect bacteria, viruses, arsenic or all chemicals and does not certify water as safe to drink. Confirm with an accredited laboratory and local authority guidance.',
+      assess: 'Assess inspection signals',
+      advisor: 'Maintenance Attention Indicator',
+      safety: 'Safety note: This prototype evaluates physical observation signals for cleaning planning. It cannot detect pathogens, arsenic, or dissolved toxins and does not certify drinking water safety.',
       cleanVerify: 'Cleaning verification',
-      cleanText: 'Record the current score, update observations after inspection/cleaning, then compare the score. A higher score supports—but does not prove—improvement.',
+      cleanText: 'Record baseline attention score, update observations after servicing, and compare score changes.',
       saveBefore: 'Save before-cleaning score',
       compareAfter: 'Compare after-cleaning',
       incidentLog: 'Device-local incident log',
-      offlineText: 'Saved in this browser. Offline records remain queued until you press Sync while online.',
-      clear: 'Clear log'
+      offlineText: 'Saved in browser localStorage. Click Export to download incident records as JSON.',
+      clear: 'Clear log',
+      exportJson: 'Export JSON',
+      simSyncBtn: 'Simulate sync'
     },
     bn: {
       tagline: 'ইন্টারনেট ছাড়াও পানির সিদ্ধান্ত',
       title: 'প্রতিষ্ঠানের পানি ব্যবস্থাপনা',
-      subtitle: 'স্কুল, ক্লিনিক ও কমিউনিটি ভবনের জন্য ব্যাখ্যাযোগ্য স্থানীয় নিয়ম।',
+      subtitle: 'স্কুল, ক্লিনিক ও কমিউনিটি ভবনের জন্য ব্যাখ্যাযোগ্য লোকাল নিয়ম।',
       prototype: 'ইন্টার‍্যাক্টিভ সফটওয়্যার প্রোটোটাইপ · সিমুলেটেড রিডিং',
-      sync: 'সিঙ্ক কিউ',
+      sync: 'সিঙ্ক সিমুলেশন / এক্সপোর্ট',
+      syncTooltip: 'এই প্রোটোটাইপে ডেটা সম্পূর্ণ ডিভাইসের ব্রাউজারে থাকে। কোনো বহিরাগত সার্ভার এপিআই যুক্ত নেই।',
       operations: 'অপারেশন',
-      tankHealth: 'ট্যাংক স্বাস্থ্য',
+      tankHealth: 'রক্ষণাবেক্ষণ পরামর্শক',
       incidents: 'ঘটনার ইতিহাস',
       readings: '১. বর্তমান রিডিং দিন',
       testCases: 'টেস্ট কেস:',
@@ -98,20 +103,23 @@
       simulateRepair: 'মেরামত সিমুলেট করুন',
       verify: 'যাচাই ও ঘটনা সংরক্ষণ',
       tankInputs: 'ট্যাংকের পর্যবেক্ষণ',
-      assess: 'ট্যাংকের সংকেত যাচাই',
-      advisor: 'পরিষ্কার ও পরিদর্শন পরামর্শ',
-      safety: 'সীমাবদ্ধতা: এই প্রোটোটাইপ ব্যাকটেরিয়া, ভাইরাস, আর্সেনিক বা সব রাসায়নিক শনাক্ত করতে পারে না এবং পানিকে নিরাপদ বলে সনদ দেয় না। স্বীকৃত ল্যাব ও স্থানীয় কর্তৃপক্ষের নির্দেশনা নিন।',
+      assess: 'পর্যবেক্ষণ সংকেত যাচাই',
+      advisor: 'রক্ষণাবেক্ষণ মনোযোগ সূচক (Indicator)',
+      safety: 'সীমাবদ্ধতা: এই প্রোটোটাইপ কেবল পরিষ্কারের পরিকল্পনা নির্দেশ করে। এটি ব্যাকটেরিয়া, আর্সেনিক বা বিষাক্ত পদার্থ শনাক্ত করে না এবং খাবার পানির সনদ দেয় না।',
       cleanVerify: 'পরিষ্কার করার ফল যাচাই',
-      cleanText: 'বর্তমান স্কোর রাখুন, পরিদর্শন/পরিষ্কারের পর তথ্য বদলে তুলনা করুন। বেশি স্কোর উন্নতির ইঙ্গিত দেয়, প্রমাণ নয়।',
+      cleanText: 'বর্তমান স্কোর রাখুন, পরিদর্শন/পরিষ্কারের পর তথ্য বদলে তুলনা করুন। বেশি স্কোর উন্নতির ইঙ্গিত দেয়।',
       saveBefore: 'আগের স্কোর রাখুন',
       compareAfter: 'পরের স্কোর তুলনা',
       incidentLog: 'ডিভাইসে সংরক্ষিত ঘটনার তালিকা',
-      offlineText: 'এই ব্রাউজারে থাকে। অফলাইনের রেকর্ড অনলাইনে Sync চাপা পর্যন্ত কিউতে থাকবে।',
-      clear: 'তালিকা মুছুন'
+      offlineText: 'এই ব্রাউজারে সংরক্ষিত। সমস্ত রেকর্ড JSON হিসেবে ডাউনলোড করতে Export চাপুন।',
+      clear: 'তালিকা মুছুন',
+      exportJson: 'JSON এক্সপোর্ট',
+      simSyncBtn: 'সিঙ্ক সিমুলেট'
     }
   };
 
   function updateLanguage() {
+    document.documentElement.lang = currentLang;
     $$('[data-i18n]').forEach((elem) => {
       const key = elem.dataset.i18n;
       if (translations[currentLang] && translations[currentLang][key]) {
@@ -154,13 +162,13 @@
     // Explanatory steps
     $('#rules').innerHTML = `
       <div class="step ${engineResult.gapPercent <= 8 ? 'done' : ''}">
-        Balance gap: <b>${engineResult.gapPercent.toFixed(1)}%</b> · alert rule &gt;15%
+        Balance gap: <b>${engineResult.gapPercent.toFixed(1)}%</b> · rule: &gt;15% triggers leak alert
       </div>
       <div class="step ${duration < 15 ? 'done' : ''}">
-        Duration: <b>${duration} min</b> · persistence rule ≥15 min
+        Duration: <b>${duration} min</b> · rule: persistence ≥15 min
       </div>
       <div class="step ${level < 95 ? 'done' : ''}">
-        Tank level: <b>${level}%</b> · overflow rule ≥95%
+        Tank level: <b>${level}%</b> · rule: tank level ≥95% for overflow
       </div>
     `;
 
@@ -192,10 +200,10 @@
     $('#reserveHours').textContent = reserveData.hoursRemaining.toFixed(1) + ' h';
     $('#reserveRing').style.setProperty('--p', reserveData.percentOf24h + '%');
     $('#reserveBar').style.width = reserveData.percentOf24h + '%';
-    $('#reserveExplain').textContent = `${reserveData.usableLitres} L usable above protected reserve. Estimated essential demand: ${reserveData.demandPerHour} L/hour; unexplained-flow burden: ${reserveData.lossBurdenPerHour} L/hour.`;
+    $('#reserveExplain').textContent = `${reserveData.usableLitres} L usable above protected reserve. Estimated baseline demand: ${reserveData.demandPerHour} L/hour; loss burden: ${reserveData.lossBurdenPerHour} L/hour.`;
   }
 
-  // Tank Health Assessment
+  // Tank Maintenance Assessment
   function runTankAssessment() {
     const observations = {
       turbidity: getNumber('turbidity'),
@@ -218,10 +226,11 @@
     return result.score;
   }
 
-  // Incident Logging & Offline Queue
+  // Incident Logging & Safe Storage
   function getIncidents() {
     try {
-      return JSON.parse(localStorage.getItem('jolwatch-incidents') || '[]');
+      const parsed = JSON.parse(localStorage.getItem('jolwatch-incidents') || '[]');
+      return Array.isArray(parsed) ? parsed : [];
     } catch {
       return [];
     }
@@ -232,21 +241,42 @@
     renderLog();
   }
 
+  // Safe DOM table rendering (prevents XSS from corrupted/injected localStorage)
   function renderLog() {
     const list = getIncidents();
-    $('#incidentRows').innerHTML = list
-      .map(
-        (item) => `
-        <tr>
-          <td>${item.time}</td>
-          <td>${item.type}</td>
-          <td>${item.before.toFixed(1)} L/min</td>
-          <td>${item.after.toFixed(1)} L/min</td>
-          <td>${item.outcome}</td>
-          <td>${item.synced ? 'Synced' : 'Queued'}</td>
-        </tr>`
-      )
-      .join('');
+    const tbody = $('#incidentRows');
+    tbody.innerHTML = '';
+
+    list.forEach((item) => {
+      const tr = document.createElement('tr');
+
+      const tdTime = document.createElement('td');
+      tdTime.textContent = String(item.time || '');
+
+      const tdType = document.createElement('td');
+      tdType.textContent = String(item.type || '');
+
+      const tdBefore = document.createElement('td');
+      tdBefore.textContent = (Number(item.before) || 0).toFixed(1) + ' L/min';
+
+      const tdAfter = document.createElement('td');
+      tdAfter.textContent = (Number(item.after) || 0).toFixed(1) + ' L/min';
+
+      const tdOutcome = document.createElement('td');
+      tdOutcome.textContent = String(item.outcome || '');
+
+      const tdSync = document.createElement('td');
+      tdSync.textContent = item.synced ? 'Simulated sync' : 'Local only';
+      tdSync.style.color = item.synced ? 'var(--green)' : 'var(--muted)';
+
+      tr.appendChild(tdTime);
+      tr.appendChild(tdType);
+      tr.appendChild(tdBefore);
+      tr.appendChild(tdAfter);
+      tr.appendChild(tdOutcome);
+      tr.appendChild(tdSync);
+      tbody.appendChild(tr);
+    });
 
     $('#emptyLog').classList.toggle('hidden', list.length > 0);
     $('#queueN').textContent = list.filter((item) => !item.synced).length;
@@ -256,7 +286,7 @@
   function checkNetworkStatus() {
     const isOnline = navigator.onLine;
     const badge = $('#netBadge');
-    badge.textContent = isOnline ? '● Online' : '● Offline';
+    badge.textContent = isOnline ? '● Online (Browser)' : '● Offline (Browser)';
     badge.classList.toggle('offline', !isOnline);
   }
 
@@ -283,6 +313,24 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // Export incidents as a JSON file
+  function exportIncidentsJSON() {
+    const data = getIncidents();
+    if (data.length === 0) {
+      alert('No incidents to export yet.');
+      return;
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `jolwatch-incidents-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
   // Event Listeners Initialization
   function initEvents() {
     // Navigation Tabs
@@ -305,6 +353,13 @@
         runAnalysis();
       };
     });
+
+    // Facility Profile change triggers reserve recalculation
+    $('#profile').onchange = () => {
+      if (currentResult) {
+        updateReserve(getNumber('inlet'), currentResult.gap);
+      }
+    };
 
     // Analyze button
     $('#analyze').onclick = runAnalysis;
@@ -342,7 +397,7 @@
         before: beforeRepair ? beforeRepair.gap : 0,
         after: after.gap,
         outcome,
-        synced: navigator.onLine
+        synced: false
       });
 
       saveIncidents(incidents);
@@ -351,7 +406,7 @@
       $('#repairActive').classList.remove('hidden');
     };
 
-    // Tank Health actions
+    // Tank Maintenance actions
     $('#tankAnalyze').onclick = runTankAssessment;
 
     $('#cleanBefore').onclick = () => {
@@ -366,15 +421,27 @@
       $('#cleanResult').textContent = `Change: ${diff >= 0 ? '+' : ''}${diff} points (indicator)`;
     };
 
-    // Sync button
+    // Honest Sync Simulation Button
     $('#syncBtn').onclick = () => {
-      if (!navigator.onLine) {
-        alert('Still offline. Records remain safely queued in local device storage.');
+      const pending = getIncidents().filter((item) => !item.synced).length;
+      if (pending === 0) {
+        alert('All incident records are already marked as simulated sync.');
         return;
       }
-      const synced = getIncidents().map((item) => ({ ...item, synced: true }));
-      saveIncidents(synced);
+      const confirmed = confirm(
+        `Prototype notice:\nThere is no external cloud database attached in this offline prototype.\n\nMark ${pending} local record(s) as "Simulated sync" for demonstration purposes?`
+      );
+      if (confirmed) {
+        const synced = getIncidents().map((item) => ({ ...item, synced: true }));
+        saveIncidents(synced);
+      }
     };
+
+    // Export JSON button
+    const exportBtn = $('#exportJsonBtn');
+    if (exportBtn) {
+      exportBtn.onclick = exportIncidentsJSON;
+    }
 
     // Clear incident history
     $('#clearLog').onclick = () => {
