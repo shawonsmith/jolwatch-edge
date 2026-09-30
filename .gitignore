@@ -4,3 +4,6 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+.openai/
+deploy-v2.tar.gz
+*.tar.gz
