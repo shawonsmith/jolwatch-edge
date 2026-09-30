@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JolWatch Edge — Offline Water Intelligence</title>
+  <meta name="description" content="Rule-based water-loss detection, reserve planning, repair verification and tank-health guidance for low-connectivity facilities.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23094b5d'/%3E%3Cpath d='M32 10C23 23 17 30 17 40a15 15 0 0030 0c0-10-6-17-15-30z' fill='%233ee0c3'/%3E%3Cpath d='M23 42c4 5 10 7 16 4' fill='none' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="top">
+    <div class="brand">
+      <div class="logo">◉</div>
+      <div>
+        <b>JolWatch Edge</b>
+        <small data-i18n="tagline">Water decisions, even offline</small>
+      </div>
+    </div>
+    <div class="actions">
+      <span class="badge" id="netBadge">● Online</span>
+      <button class="btn" id="lang">বাংলা</button>
+      <button class="btn" id="syncBtn">
+        <span class="syncText" data-i18n="sync">Sync queue</span> (<span id="queueN">0</span>)
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="wrap">
+    <div class="hero">
+      <div>
+        <h1 data-i18n="title">Facility Water Intelligence</h1>
+        <p data-i18n="subtitle">Explainable local rules for schools, clinics and community buildings.</p>
+      </div>
+      <div class="actions">
+        <button class="btn teal" id="guidedDemo">▶ Guided demo</button>
+        <span class="badge" data-i18n="prototype">Interactive prototype · simulated inputs</span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="ops" data-i18n="operations">Operations</button>
+      <button class="tab" data-tab="tank" data-i18n="tankHealth">Tank Health</button>
+      <button class="tab" data-tab="history" data-i18n="incidents">Incidents</button>
+    </nav>
+
+    <!-- Guided Demo Banner -->
+    <div class="demoBanner" id="demoBanner">
+      <div>
+        <b id="demoTitle">Guided evidence demo</b>
+        <span id="demoText">Normal flow is being tested.</span>
+      </div>
+      <div class="demoProgress"><i id="demoProgress"></i></div>
+      <button class="btn" id="demoNext">Next case</button>
+    </div>
+
+    <!-- Operations Panel -->
+    <section class="panel active" id="ops">
+      <div class="grid">
+        <article class="card">
+          <h2 data-i18n="readings">1. Enter current readings</h2>
+          <div class="formgrid">
+            <div class="field">
+              <label>Main inlet (L/min)</label>
+              <input id="inlet" type="number" step="0.1" value="32">
+            </div>
+            <div class="field">
+              <label>Tank level (%)</label>
+              <input id="level" type="number" step="1" value="64">
+            </div>
+            <div class="field">
+              <label>Tank capacity (L)</label>
+              <input id="capacity" type="number" step="100" value="5000">
+            </div>
+            <div class="field">
+              <label>Washroom (L/min)</label>
+              <input id="z1" type="number" step="0.1" value="10.5">
+            </div>
+            <div class="field">
+              <label>Kitchen (L/min)</label>
+              <input id="z2" type="number" step="0.1" value="7">
+            </div>
+            <div class="field">
+              <label>Cleaning/Garden (L/min)</label>
+              <input id="z3" type="number" step="0.1" value="8">
+            </div>
+            <div class="field">
+              <label>Drinking points (L/min)</label>
+              <input id="z4" type="number" step="0.1" value="5">
+            </div>
+            <div class="field">
+              <label>Pattern duration (minutes)</label>
+              <input id="duration" type="number" step="1" value="20">
+            </div>
+            <div class="field">
+              <label>Facility profile</label>
+              <select id="profile">
+                <option value="school">School / community centre</option>
+                <option value="clinic">Clinic / health facility</option>
+              </select>
+            </div>
+          </div>
+          <div class="quick">
+            <b data-i18n="testCases">Test cases:</b>
+            <button data-case="normal">Normal</button>
+            <button data-case="leak">Hidden leak</button>
+            <button data-case="overflow">Overflow</button>
+            <button data-case="mismatch">Sensor mismatch</button>
+          </div>
+          <button class="btn primary" id="analyze" style="margin-top:13px" data-i18n="analyze">Analyze readings</button>
+        </article>
+
+        <article class="card">
+          <h2 data-i18n="decision">2. Explainable decision</h2>
+          <div class="alert" id="decisionBox">
+            <div class="status" id="decisionStatus">NORMAL</div>
+            <b id="decisionTitle">Flow balance is within tolerance</b>
+            <p id="decisionText">Unexplained flow is below the action threshold.</p>
+          </div>
+          <h3 data-i18n="why">Why this result?</h3>
+          <div class="steps" id="rules"></div>
+        </article>
+      </div>
+
+      <!-- Live Flow Metrics -->
+      <div class="metrics">
+        <div class="metric">
+          <span>Main inlet</span>
+          <strong id="mInlet">32.0</strong>
+          <small>L/min</small>
+        </div>
+        <div class="metric">
+          <span>Recorded zone use</span>
+          <strong id="mZones">30.5</strong>
+          <small>L/min</small>
+        </div>
+        <div class="metric">
+          <span>Unexplained flow</span>
+          <strong id="mGap">1.5</strong>
+          <small id="mGapPct">4.7% of inlet</small>
+        </div>
+        <div class="metric">
+          <span>Essential reserve</span>
+          <strong id="mReserve">18.2 h</strong>
+          <small data-i18n="estimated">scenario estimate</small>
+        </div>
+      </div>
+
+      <!-- Reserve Clock and Repair Workflow -->
+      <div class="grid">
+        <article class="card">
+          <h2 data-i18n="reserveClock">Essential Reserve Clock</h2>
+          <div class="reserve">
+            <div class="ring" id="reserveRing" style="--p:70%">
+              <div>
+                <span id="reserveHours">18.2 h</span>
+                <small data-i18n="remaining">estimated remaining</small>
+              </div>
+            </div>
+            <div>
+              <p id="reserveExplain"></p>
+              <div class="bar"><i id="reserveBar"></i></div>
+              <p class="fine" data-i18n="reserveNote">Prioritises minimum essential demand; planning estimate based on facility baseline.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2 data-i18n="repair">Alert → Repair → Verify</h2>
+          <div id="repairIdle">
+            <p data-i18n="repairHint">Analyze an abnormal case, record the baseline, then enter after-repair readings to verify improvement.</p>
+            <button class="btn" id="capture" disabled data-i18n="capture">Capture alert baseline</button>
+          </div>
+          <div id="repairActive" class="hidden">
+            <p>Before-repair loss: <b id="beforeLoss"></b></p>
+            <div class="inline">
+              <button class="btn" id="simulateRepair" data-i18n="simulateRepair">Simulate repair</button>
+              <button class="btn teal" id="verify" data-i18n="verify">Verify & save incident</button>
+            </div>
+            <p id="verifyResult"></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Tank Health Panel -->
+    <section class="panel" id="tank">
+      <div class="grid">
+        <article class="card">
+          <h2 data-i18n="tankInputs">Tank condition observations</h2>
+          <div class="formgrid">
+            <div class="field">
+              <label>Turbidity (NTU)</label>
+              <input id="turbidity" type="number" step="0.1" value="2.2">
+            </div>
+            <div class="field">
+              <label>TDS (ppm)</label>
+              <input id="tds" type="number" value="220">
+            </div>
+            <div class="field">
+              <label>Usual TDS baseline (ppm)</label>
+              <input id="tdsBase" type="number" value="200">
+            </div>
+            <div class="field">
+              <label>Temperature (°C)</label>
+              <input id="temp" type="number" step="0.1" value="27">
+            </div>
+            <div class="field">
+              <label>Days since inspection</label>
+              <input id="days" type="number" value="25">
+            </div>
+            <div class="field">
+              <label>Tank turnover / week</label>
+              <input id="turnover" type="number" step="0.1" value="3">
+            </div>
+          </div>
+          <button class="btn primary" id="tankAnalyze" style="margin-top:13px" data-i18n="assess">Assess tank signals</button>
+        </article>
+
+        <article class="card">
+          <h2 data-i18n="advisor">Cleaning & inspection advisor</h2>
+          <div class="score">
+            <span id="healthScore">88</span><small>/100</small>
+          </div>
+          <div class="bar"><i id="healthBar" style="width:88%"></i></div>
+          <h3 id="healthTitle">Routine monitoring</h3>
+          <p id="healthText">No strong cleaning trigger is visible in current observations.</p>
+          <div class="disclaimer" data-i18n="safety">
+            Operational guide: This module aids maintenance scheduling; it cannot replace laboratory bacterial or chemical testing and does not certify drinking water safety.
+          </div>
+        </article>
+
+        <article class="card wide">
+          <h2 data-i18n="cleanVerify">Cleaning verification</h2>
+          <p data-i18n="cleanText">Record current baseline score, update observations after cleaning, and compare score changes.</p>
+          <button class="btn" id="cleanBefore" data-i18n="saveBefore">Save before-cleaning score</button>
+          <button class="btn teal" id="cleanAfter" disabled data-i18n="compareAfter">Compare after-cleaning</button>
+          <b id="cleanResult" style="margin-left:10px"></b>
+        </article>
+      </div>
+    </section>
+
+    <!-- Incident History Panel -->
+    <section class="panel" id="history">
+      <article class="card">
+        <div class="inline" style="justify-content:space-between">
+          <div>
+            <h2 data-i18n="incidentLog">Device-local incident log</h2>
+            <p class="fine" data-i18n="offlineText">Saved locally on this device. Offline records remain queued until synced with network.</p>
+          </div>
+          <button class="btn" id="clearLog" data-i18n="clear">Clear log</button>
+        </div>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Type</th>
+                <th>Before</th>
+                <th>After</th>
+                <th>Outcome</th>
+                <th>Sync</th>
+              </tr>
+            </thead>
+            <tbody id="incidentRows"></tbody>
+          </table>
+        </div>
+        <div class="empty hidden" id="emptyLog">No verified incidents saved yet.</div>
+      </article>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>JolWatch Edge v2.0 · Designed & Developed by Shawon Khan · Offline-first facility water management prototype.</p>
+    </footer>
+  </main>
+
+  <!-- Application Scripts -->
+  <script src="js/engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
