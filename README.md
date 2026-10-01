@@ -7,7 +7,7 @@
 [![Maturity: Prototype](https://img.shields.io/badge/Maturity-Software%20Prototype-orange.svg)](#honest-prototype-disclosure)
 [![Bilingual](https://img.shields.io/badge/Language-English%20%7C%20%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE-teal.svg)](index.html)
 
-**Offline-first facility water intelligence and deterministic leak detection prototype for low-connectivity environments.**
+**An offline-first tool for detecting pipe leaks, preventing tank overflows, and tracking reserve water in low-connectivity schools, clinics, and community facilities.**
 
 ---
 
@@ -18,34 +18,34 @@
 🚀 **Interactive Web Dashboard:** [https://shawonsmith.github.io/jolwatch-edge/](https://shawonsmith.github.io/jolwatch-edge/)  
 📄 **Technical Paper / Software Manuscript (Printable / HTML):** [https://shawonsmith.github.io/jolwatch-edge/paper/](https://shawonsmith.github.io/jolwatch-edge/paper/)  
 📜 **Technical Manuscript Source (Markdown):** [https://github.com/shawonsmith/jolwatch-edge/blob/main/paper/paper.md](https://github.com/shawonsmith/jolwatch-edge/blob/main/paper/paper.md)  
-*(Runs 100% client-side in your browser. This document is an open technical report / software manuscript archived on Zenodo, intended as a foundation prior to field peer review.)*
+*(Runs completely client-side in your web browser. No server, database, or continuous internet connection required.)*
 
 ---
 
-## 📌 Problem Overview
+## 📌 Why I Built This
 
-Small community facilities across developing and low-connectivity regions—such as rural primary schools, community health posts, vocational training centers, and public housing blocks—often receive high monthly water bills or run out of water unexpectedly. 
+In rural primary schools, community clinics, and public facilities across Bangladesh and similar regions, clean water is scarce and municipal supply is intermittent. Most facilities pump water into overhead rooftop tanks to keep taps running throughout the day. When plumbing issues occur, they often stay hidden until a major disruption happens:
+- Underground pipe cracks and leaky toilet cisterns run constantly, quietly wasting clean water and driving up utility bills.
+- Mechanical float valves get stuck, causing rooftop storage tanks to overflow onto roofs and exterior walls for hours unnoticed.
+- When municipal supply cuts out, facility staff have no simple way to know how many hours of usable water remain before the building runs completely dry.
 
-However, facility managers typically cannot identify:
-- **When** water is escaping (gradual leaks vs. sudden overflows),
-- **Where** the loss is occurring (in unmonitored branch pipes, cisterns, or rooftop tanks),
-- **How long** essential water reserves will last during an outage.
-
-Commercial IoT water management systems often demand costly proprietary hardware, complex cloud backends, and reliable high-speed broadband—rendering them impractical in off-grid or rural settings.
+Most commercial smart-water systems rely on continuous high-speed internet, proprietary hardware, and ongoing cloud subscriptions. When local power cuts or network dropouts hit, cloud-dependent dashboards stop working. I built JolWatch Edge to provide an open, lightweight alternative that runs locally on low-cost hardware or directly in a web browser without needing any remote server.
 
 ---
 
-## 💡 Proposed Solution
+## 💡 How It Works
 
-**JolWatch Edge** is an explainable, offline-first water intelligence prototype. It computes flow balance by comparing water entering a facility through a main inlet meter against aggregated water consumption across monitored branch zones (e.g., washrooms, kitchens, outdoor points, drinking taps).
+JolWatch Edge uses simple flow-balance accounting. It compares the water entering a facility through a main inlet meter against the total water recorded across monitored branch lines (such as washrooms, kitchens, outdoor taps, and drinking points).
 
-### Key Functional Capabilities
-1. **Deterministic Flow Classification:** Uses explicit mathematical rules to classify current use into *Normal*, *Possible Hidden Leak*, *Possible Tank Overflow*, *Sensor Mismatch*, or *Monitor*.
-2. **Essential Reserve Clock:** Estimates remaining usable hours of water for schools and health clinics while reserving a protected emergency buffer.
-3. **Alert → Repair → Verify:** Captures pre-repair anomaly baselines and validates whether maintenance reduced the loss rate by at least 50%.
-4. **Maintenance Attention Indicator:** Analyzes observational water quality indicators (Turbidity, TDS shift, temperature, inspection interval) to guide tank cleaning schedules.
-5. **Zero-Cloud Local Storage:** Records all incidents directly to the browser or local edge runtime, providing offline JSON export.
-6. **Bilingual User Interface:** Complete parity across English and Bengali interfaces.
+Instead of relying on black-box predictions, the system uses clear, explainable rules that can run on an inexpensive microcontroller or an offline tablet:
+
+### Core Capabilities
+1. **Deterministic State Classification:** Categorizes current flow into *Normal*, *Possible Hidden Leak*, *Possible Tank Overflow*, *Sensor Mismatch*, or *Monitor* using explicit flow-balance math.
+2. **Essential Reserve Clock:** Estimates remaining usable hours of water during supply cuts, protecting a dedicated emergency buffer (20% for schools, 30% for clinics).
+3. **Before & After Repair Verification:** Records flow imbalance before maintenance and verifies whether the repair reduced the leak by at least 50%.
+4. **Tank Maintenance Advisor:** Looks at turbidity, TDS change, water temperature, and inspection intervals to prompt regular cleanings before water quality drops.
+5. **Zero-Cloud Local Storage:** Keeps incident records in local device storage, with a simple one-click JSON export for offline reporting.
+6. **Bilingual User Interface:** Fully functional in both English and Bengali (বাংলা).
 
 ---
 
@@ -63,7 +63,7 @@ $$\text{LossRate}(t) = \begin{cases} \left(\frac{\text{EstimatedLoss}(t)}{\text{
 ### 2. Decision Logic Classification Rules
 - **Rule 1 (Sensor Mismatch):**  
   $\text{ZoneOverread} = \text{RecordedZoneTotal} - \text{MainInlet} > 2.0\text{ L/min} \implies \textbf{Sensor Mismatch}$  
-  *(Prevents false alarms by identifying sensor calibration drift or timing offsets before alerting operators.)*
+  *(A calibration tolerance that prevents false alarms when branch meters momentarily read slightly higher than the main meter.)*
 - **Rule 2 (Tank Overflow):**  
   $(\text{TankLevel} \ge 95\%) \land (\text{MainInlet} > 10\text{ L/min}) \land (\text{LossRate} > 25\%) \implies \textbf{Possible Tank Overflow}$
 - **Rule 3 (Persistent Hidden Leak):**  
@@ -77,7 +77,7 @@ $$\text{LossRate}(t) = \begin{cases} \left(\frac{\text{EstimatedLoss}(t)}{\text{
 
 ## 🏗️ System Architecture
 
-The conceptual physical deployment targets low-cost microcontrollers (ESP32) and hall-effect pulse flow sensors:
+The physical deployment is designed for low-cost ESP32 microcontrollers paired with standard pulse flow meters (such as the YF-S201) and waterproof ultrasonic level sensors (JSN-SR04T):
 
 ```
 [Main Water Inlet] ----> [Flow Sensor 1] -----\
@@ -86,9 +86,9 @@ The conceptual physical deployment targets low-cost microcontrollers (ESP32) and
 [Zone 2: Kitchen] -----> [Flow Sensor 3] ------> [ESP32 Edge Unit] ----> [Local Web Dashboard / OLED]
 [Zone 3: Cleaning] ----> [Flow Sensor 4] ------/   (Runs JolWatch Engine)   (Works 100% Offline)
 [Zone 4: Drinking] ----> [Flow Sensor 5] -----/                                   |
-                                                                           (Optional Sync when online)
+                                                                            (Optional Sync when online)
 [Overhead Tank] -------> [Water Level Sensor] -/                                   v
-                                                                          [Central Facility Log]
+                                                                           [Central Facility Log]
 ```
 *(See [docs/architecture.svg](docs/architecture.svg) for detailed schematic.)*
 
@@ -96,7 +96,7 @@ The conceptual physical deployment targets low-cost microcontrollers (ESP32) and
 
 ## 🧪 Canonical Evaluation Benchmarks
 
-The software engine is validated against a deterministic canonical benchmark dataset:
+The core software engine is validated against a deterministic evaluation dataset:
 
 | Case ID | Scenario | Inlet | Zones Total | Gap | Loss Rate | Duration | Level | Decision |
 |:---:|:---|---:|---:|---:|---:|---:|---:|:---|
@@ -106,7 +106,7 @@ The software engine is validated against a deterministic canonical benchmark dat
 | **TC-04** | Sensor Mismatch | 25.0 L/min | 34.0 L/min | 0.0 L/min | 0.0% | 10 min | 60% | **Sensor mismatch** |
 | **TC-05** | Elevated Short Gap | 40.0 L/min | 34.0 L/min | 6.0 L/min | 15.0% | 5 min | 55% | **Monitor** |
 
-Full automated test suite with 28 tests is available in [`tests/detection-engine.test.js`](tests/detection-engine.test.js).
+Full automated test suite with 28 unit tests is available in [`tests/detection-engine.test.js`](tests/detection-engine.test.js).
 
 ---
 
@@ -147,10 +147,11 @@ Execution Complete: 28/28 tests passed successfully.
 
 ## ⚠️ Honest Prototype Disclosures & Current Limitations
 
-1. **Software Simulation Status:** This repository represents a functional software prototype evaluated with simulated data. Field deployment with physical flow sensors and empirical water savings measurements remain future validation milestones.
-2. **Prototype Parameter Calibration:** The current threshold values (8% monitor threshold, 15% leak threshold, 15-minute persistence duration, 120 L/h school demand, 180 L/h clinic demand) are illustrative engineering assumptions. Real deployments require site-specific baseline calibration.
-3. **Maintenance Indicator vs. Potability:** The tank maintenance module assists with inspection scheduling based on physical signals (Turbidity, TDS variance, temperature, days elapsed). **It does not detect microbiological pathogens, viruses, arsenic, or dissolved heavy metals and cannot certify water as safe for human consumption.** Drinking water safety must be verified by accredited laboratory assays.
-4. **Local Prototype Sync:** The "Simulate Sync" button demonstrates offline queue behavior locally; it does not currently transmit packets to an external cloud database.
+I want to be transparent about what is finished and what remains future work:
+1. **Software Prototype:** All test scenarios in this repository use simulated, deterministic sensor readings to evaluate the edge logic. Deploying physical flow meters and pressure sensors in an active facility is the next phase.
+2. **Threshold Calibration:** The default threshold values (8% monitor threshold, 15% leak threshold, 15-minute persistence duration, 120 L/h school demand, 180 L/h clinic demand) are baseline engineering estimates. Real deployments will need site-specific calibration.
+3. **Maintenance Advisor vs. Drinking Water Safety:** The tank maintenance module tracks physical indicators (turbidity, TDS change, temperature, days since cleaning) to help schedule tank washouts. **It does not test for bacteria, viruses, arsenic, or heavy metals, and it cannot certify water as safe to drink.** Drinking water safety must be verified by accredited laboratory assays.
+4. **Local Prototype Sync:** The "Simulate Sync" button is an offline UI demonstration showing how outgoing sync queues behave. It does not transmit packets to an external cloud database.
 
 ---
 
@@ -160,9 +161,9 @@ Execution Complete: 28/28 tests passed successfully.
 - [x] Automated boundary testing suite (28 tests across edge conditions).
 - [x] Continuous Integration via GitHub Actions.
 - [x] Local JSON export for recorded incident logs.
-- [ ] **Phase 2 (Hardware Prototyping):** Fabricate ESP32 test rig with calibrated YF-S201 flow meters and JSN-SR04T waterproof ultrasonic level sensors.
-- [ ] **Phase 3 (Empirical Calibration):** Introduce controlled physical leaks (1 L/min to 10 L/min) to determine receiver operating characteristic (ROC) curves, false positive rates, and time-to-detect metrics.
-- [ ] **Phase 4 (Academic Publication):** Prepare formal research manuscript with empirical sensor data for open-access peer review (arXiv / Zenodo / JOSS).
+- [ ] **Phase 2 (Hardware Prototyping):** Build an ESP32 bench rig with calibrated YF-S201 flow meters and JSN-SR04T waterproof ultrasonic level sensors.
+- [ ] **Phase 3 (Empirical Calibration):** Introduce controlled physical leaks (1 L/min to 10 L/min) to measure response times, detection limits, and false-alarm rates under variable pipe pressures.
+- [ ] **Phase 4 (Academic Publication):** Prepare formal research manuscript with physical sensor test data for open-access peer review (arXiv / Zenodo / JOSS).
 
 ---
 

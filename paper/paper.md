@@ -1,5 +1,5 @@
 ---
-title: 'JolWatch Edge: An Explainable Offline-First Water Intelligence and Deterministic Leak Detection System for Low-Connectivity Facilities'
+title: 'JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection for Low-Connectivity Facilities'
 tags:
   - water conservation
   - leak detection
@@ -21,18 +21,18 @@ bibliography: paper.bib
 
 # Summary
 
-Water scarcity and unmonitored distribution losses present severe operational challenges to community infrastructure across developing nations. Community facilities frequently experience critical water, sanitation, and hygiene (WASH) infrastructure limitations (World Health Organization, 2019) [@who2019wash]. In facilities such as rural primary schools, health clinics, and multi-tenant residential complexes, undetected pipe bursts, faulty cisterns, and storage tank overflows often persist for days before detection. While commercial Internet of Things (IoT) solutions exist, they predominantly rely on continuous cloud connectivity, proprietary hardware, and centralized telemetry—prerequisites that are frequently absent in resource-constrained environments.
+Water scarcity and unmonitored plumbing losses create persistent operational challenges for community infrastructure across developing nations. Rural primary schools, community health posts, and multi-tenant residential facilities frequently face severe water, sanitation, and hygiene (WASH) infrastructure constraints (World Health Organization, 2019) [@who2019wash]. In these facilities, underground pipe fractures, leaking cisterns, and overflowing rooftop tanks often continue for days or weeks before someone notices. Most commercial IoT solutions depend on steady internet connectivity, proprietary hardware, and centralized cloud servers. These requirements often fail in resource-constrained environments where power outages and network dropouts are common.
 
-**JolWatch Edge** is an open-source, offline-first water intelligence prototype designed to operate reliably without continuous internet access. The system ingests flow rates from a facility's main inlet and monitored branch zones, applying deterministic flow-balance equations to classify usage states into *Normal*, *Possible Hidden Leak*, *Possible Tank Overflow*, *Sensor Mismatch*, or *Monitor*. Additionally, it provides an *Essential Reserve Clock* for capacity planning during supply outages and an observational *Maintenance Attention Indicator* to guide water tank cleaning.
+**JolWatch Edge** is an open-source, offline-first water intelligence prototype designed to operate reliably without an active internet connection. The system tracks volumetric flow at a facility's main inlet and compares it with monitored branch zones. Using straightforward flow-balance equations, it classifies facility status into *Normal*, *Possible Hidden Leak*, *Possible Tank Overflow*, *Sensor Mismatch*, or *Monitor*. The system also includes an *Essential Reserve Clock* to help managers plan water use during supply cuts and a *Maintenance Attention Indicator* to guide storage tank cleaning schedules.
 
 # Statement of Need
 
-In many parts of the Global South, including Bangladesh, institutions depend on intermittent municipal supply or decentralized groundwater extraction pumped into overhead reservoirs. Achieving universal water access under Sustainable Development Goal 6 requires substantial capital investment and proactive loss mitigation (Hutton and Varughese, 2016) [@hutton2016costs]. Water utility billing reflects aggregate volumetric consumption rather than temporal or spatial flow dynamics. Empirical plumbing end-use studies demonstrate that fixture leakage and unmonitored line failures represent significant fractions of aggregate municipal draw (Mayer et al., 2016) [@mayer2016residential]. Consequently, facilities encounter two distinct failure modes:
+In many parts of the Global South, including Bangladesh, institutions rely on intermittent municipal supply or local groundwater pumped into overhead storage tanks. Water utility billing measures only monthly total volume rather than real-time flow patterns. Meeting universal water access targets under Sustainable Development Goal 6 requires substantial capital investment alongside aggressive loss reduction (Hutton and Varughese, 2016) [@hutton2016costs]. Studies on plumbing end-use confirm that fixture leakage and distribution defects account for a large portion of avoidable municipal draw (Mayer et al., 2016) [@mayer2016residential]. In practice, facilities face two frequent failure modes:
 
-1. **Undetected Distribution Leaks:** Subsurface line fractures or defective washroom fixtures generate persistent low-to-medium flow imbalances that escalate municipal bills and deplete local aquifers.
-2. **Overhead Reservoir Overflows:** Mechanical float-valve failures allow inlet pumping to continue past storage capacity, leading to structural water damage and acute resource wastage.
+1. **Undetected Distribution Leaks:** Underground pipe cracks or leaking toilet valves create a continuous flow imbalance. This wastes municipal water, increases bills, and depletes local groundwater tables.
+2. **Overhead Reservoir Overflows:** Mechanical float valves jam or wear out, allowing pumps to keep filling tanks past their capacity. This damages roofs and structures while wasting clean water.
 
-When cloud-dependent monitoring architectures face internet disruptions, alert generation ceases or buffers indefinitely. JolWatch Edge addresses this critical resilience gap by executing all balance heuristics and decision rules directly on the client edge runtime, requiring zero remote server dependencies.
+When cloud-based monitoring tools lose their internet connection, their alert pipelines break or stall. JolWatch Edge closes this reliability gap by running all balance calculations and decision rules directly on edge hardware or in local browser memory, requiring zero remote server calls.
 
 # Mathematical Formulation & Methodology
 
@@ -94,9 +94,9 @@ The JolWatch Edge reference software implementation (Khan, 2026) [@khan2026jolwa
 
 # Limitations & Future Empirical Validation
 
-1. **Software Simulation Benchmark:** Current validation relies on synthetic, deterministic datasets. Empirical deployment on a controlled physical test rig using ESP32 microcontrollers, YF-S201 hall-effect pulse meters, and JSN-SR04T waterproof ultrasonic transducers represents the immediate research phase.
-2. **Threshold Calibration:** Current threshold coefficients ($\theta_{leak} = 15\%$, $\tau_{min} = 15\text{ min}$) represent evaluation assumptions and require empirical Bayesian calibration against real-world facility consumption patterns.
-3. **Biological & Chemical Non-Potability:** The maintenance attention index analyzes observational physical surrogates (turbidity, TDS drift, stagnation time) for servicing schedules and explicitly does not certify drinking water safety against microbial or arsenic contamination.
+1. **Software Simulation Benchmark:** Current validation relies on synthetic, deterministic datasets. Deploying this logic on a physical test rig with ESP32 microcontrollers, YF-S201 flow sensors, and JSN-SR04T waterproof ultrasonic level sensors is the next experimental step.
+2. **Threshold Calibration:** The default threshold values ($\theta_{leak} = 15\%$, $\tau_{min} = 15\text{ min}$) serve as baseline demonstration parameters. Real facilities will need empirical calibration to account for specific plumbing layouts and daily consumption rhythms.
+3. **Water Safety Notice:** The maintenance attention index monitors physical indicators (turbidity, TDS change, temperature, inspection interval) to plan routine cleaning. It does not measure bacteria, viruses, or dissolved arsenic, and it cannot certify drinking water potability.
 
 # Availability
 
@@ -110,4 +110,3 @@ The JolWatch Edge reference software implementation (Khan, 2026) [@khan2026jolwa
 - Khan, S. (2026). *JolWatch Edge: Offline-First Water Intelligence and Deterministic Leak Detection Prototype* (v1.0.1). Zenodo. https://doi.org/10.5281/zenodo.23071819
 - Mayer, P. W., DeOreo, W. B., Chesnutt, T. W., & Pekelney, D. M. (2016). *Residential End Uses of Water, Version 2*. Water Research Foundation, Denver, CO.
 - World Health Organization. (2019). *Water, Sanitation, and Hygiene in Health Care Facilities: Practical Steps to Achieve Universal Access*. World Health Organization, Geneva, Switzerland. https://www.who.int/publications/i/item/9789241515511
-
